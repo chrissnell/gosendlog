@@ -40,3 +40,4 @@ To Do
 -----
 * Enforce maximum syslog message size limits (with option to override)
 * Better error handling
+* This is my first Go language program ever so there is most certainly many ways to improve the code
