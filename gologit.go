@@ -27,7 +27,10 @@ func main() {
 
 	var prio map[string]syslog.Priority
 	prio = make(map[string]syslog.Priority)
+	var facil map[string]syslog.Priority
+	facil = make(map[string]syslog.Priority)
 
+	// Syslog priorities from /usr/include/sys/syslog.h
 	prio["emerg"] = 0
 	prio["alert"] = 1
 	prio["crit"] = 2
@@ -36,9 +39,6 @@ func main() {
 	prio["notice"] = 5
 	prio["info"] = 6
 	prio["debug"] = 7
-
-	var facil map[string]syslog.Priority
-	facil = make(map[string]syslog.Priority)
 
 	facil["kern"] = 0 << 3
 	facil["user"] = 1 << 3
@@ -77,7 +77,7 @@ func main() {
 		log.Fatal("Must pass a destination host. Use -h for help.")
 	}
 
-	if *msgPtr == "-" {
+	if *msgPtr == "-" || *msgPtr == "" {
 		readFromStdin = true
 	} else if *msgPtr == "" {
 		log.Fatal("Must pass a message to log.  Use -h for help.")
