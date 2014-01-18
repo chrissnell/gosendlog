@@ -9,21 +9,25 @@ import (
 	"log/syslog"
 )
 
-// thanks shurcooL - https://gist.github.com/shurcooL/5157525
-func SendLinesFromReader(r io.Reader, s *syslog.Writer) {
+ 
+func ProcessLinesFromReader(r io.Reader, processFunc func(string)) {
 	br := bufio.NewReader(r)
 	for line, err := br.ReadString('\n'); err == nil; line, err = br.ReadString('\n') {
-		s.Info(line[:len(line)-1]) // Trim last newline
+		processFunc(line[:len(line)-1]) // Trim last newline
 	}
+}
+ 
+func sendLineToSyslog(message string, logger *syslog.Writer) {
+	logger.Info(message)
 }
 
 func main() {
 
 	var readFromStdin bool
 
-	destPtr := flag.String("dest", "", "destination host -- \"host:port\"")
-	msgPtr := flag.String("msg", "", "message -- \"string\" or \"-\" for stdin")
-	tagPtr := flag.String("tag", "", "tag -- \"string\"")
+	destPtr := flag.String("dest", "", "Destination host <host:port>")
+	msgPtr := flag.String("msg", "", "Message <string>")
+	tagPtr := flag.String("tag", "", "Tag <string>")
 
 	flag.Parse()
 
@@ -50,7 +54,7 @@ func main() {
 		err = s.Info(*msgPtr)
 	} else {
 		reader := bufio.NewReader(os.Stdin)
-		SendLinesFromReader(reader, s)
+		ProcessLinesFromReader(reader, func(str string) { sendLineToSyslog(str, s) } )
 	}
 
 	if err != nil {
