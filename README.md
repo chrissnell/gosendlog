@@ -31,9 +31,15 @@ gologit <args>
  
 Typical Example
 ---------------
- 
+
+Logging from stdin: 
 ```
-echo "Test message" | gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info" -msg="-"
+echo "Test message" | gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info"
+```
+
+Logging with command-line arguments:
+```
+gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info" -msg="Test message"
 ```
  
 To Do
