@@ -8,6 +8,7 @@ Usage
 ```
 gologit <args>
     -dest="host:port"  - Destination syslog host
+    -proto="protocol"  - Protocol (e.g. "udp" or "tcp").  Defaults to udp
     -tag="string"      - Tag or application name
     -facility="string" - Syslog facility (e.g. "kern", "local0", etc.)
     -priority="string" - Syslog priority (e.g. "crit", "info", etc.)
@@ -18,7 +19,7 @@ Typical Example
 ---------------
  
 ```
-echo "Test message" | gologit -dest="syslog.mycompany.com:514" -tag="apache" -facility="local7" -priority="info" -msg="-"
+echo "Test message" | gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info" -msg="-"
 ```
  
 To Do
