@@ -66,6 +66,7 @@ func main() {
 	tagPtr := flag.String("tag", "", "Tag <string>")
 	prioPtr := flag.String("priority", "info", "Priority (default: info)")
 	facilPtr := flag.String("facility", "local0", "Facility (default: local0)")
+	protoPtr := flag.String("proto", "udp", "Protocol <udp/tcp>")
 
 	flag.Parse()
 
@@ -86,7 +87,7 @@ func main() {
 		log.Fatal("Must pass a tag.  Use -h for help.")
 	}
 
-	s, err := syslog.Dial("tcp", *destPtr, mappedPriority|mappedFacility, *tagPtr)
+	s, err := syslog.Dial(*protoPtr, *destPtr, mappedPriority|mappedFacility, *tagPtr)
 
 	if err != nil {
 		log.Fatal(err)
