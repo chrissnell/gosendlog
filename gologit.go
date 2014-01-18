@@ -1,17 +1,16 @@
 package main
 
 import (
-		"flag"
-		"log"
-		"log/syslog"
+	"flag"
+	"log"
+	"log/syslog"
 )
 
-func main()	{
+func main() {
 
 	destPtr := flag.String("dest", "", "Destination host <host:port>")
 	msgPtr := flag.String("msg", "", "Message <string>")
 	tagPtr := flag.String("tag", "", "Tag <string>")
-
 
 	flag.Parse()
 
@@ -27,8 +26,7 @@ func main()	{
 		log.Fatal("Must pass a tag.  Use -h for help.")
 	}
 
-
-	s, err :=  syslog.Dial("tcp", *destPtr, syslog.LOG_INFO|syslog.LOG_LOCAL6, *tagPtr)
+	s, err := syslog.Dial("tcp", *destPtr, syslog.LOG_INFO|syslog.LOG_LOCAL6, *tagPtr)
 	if err != nil {
 		log.Fatal(err)
 	}
