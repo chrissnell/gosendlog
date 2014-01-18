@@ -26,7 +26,7 @@ gologit <args>
     -tag="string"      - Tag or application name
     -facility="string" - Syslog facility (e.g. "kern", "local0", etc.)
     -priority="string" - Syslog priority (e.g. "crit", "info", etc.)
-    -msg="string"      - Message to send, or "-" for stdin
+    -msg="string"      - Message to send.  For stdin, just exclude this flag.
 ```
  
 Typical Example
