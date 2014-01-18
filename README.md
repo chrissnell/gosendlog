@@ -29,8 +29,8 @@ gologit <args>
     -msg="string"      - Message to send.  For stdin, just exclude this flag.
 ```
  
-Typical Example
----------------
+Typical Examples
+----------------
 
 Logging from stdin: 
 ```
