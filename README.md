@@ -3,6 +3,20 @@ gologit
 
 gologit is a command-line tool to send data to a syslog server.  I wrote it because logger(1) that comes with GNU's util-linux is horribly buggy.
 
+Installation
+------------
+Install Go: http://golang.org/doc/install.
+
+Then:
+```
+git clone git@github.com:chrissnell/gologit.git
+cd gologit
+go build gologit.go
+cp gologit <wherever you want it>
+```
+
+
+
 Usage
 -----
 ```
@@ -26,3 +40,4 @@ To Do
 -----
 * Enforce maximum syslog message size limits (with option to override)
 * Better error handling
+* This is my first Go language program ever so there are most certainly many ways to improve the code
