@@ -1,16 +1,29 @@
 package main
 
 import (
+	"os"
+	"io"
+	"bufio"
 	"flag"
 	"log"
 	"log/syslog"
 )
 
+// thanks shurcooL - https://gist.github.com/shurcooL/5157525
+func SendLinesFromReader(r io.Reader, s *syslog.Writer) {
+	br := bufio.NewReader(r)
+	for line, err := br.ReadString('\n'); err == nil; line, err = br.ReadString('\n') {
+		s.Info(line[:len(line)-1]) // Trim last newline
+	}
+}
+
 func main() {
 
-	destPtr := flag.String("dest", "", "Destination host <host:port>")
-	msgPtr := flag.String("msg", "", "Message <string>")
-	tagPtr := flag.String("tag", "", "Tag <string>")
+	var readFromStdin bool
+
+	destPtr := flag.String("dest", "", "destination host -- \"host:port\"")
+	msgPtr := flag.String("msg", "", "message -- \"string\" or \"-\" for stdin")
+	tagPtr := flag.String("tag", "", "tag -- \"string\"")
 
 	flag.Parse()
 
@@ -18,9 +31,11 @@ func main() {
 		log.Fatal("Must pass a destination host. Use -h for help.")
 	}
 
-	if *msgPtr == "" {
+	if *msgPtr == "-" {
+		readFromStdin = true
+	} else if *msgPtr == "" {
 		log.Fatal("Must pass a message to log.  Use -h for help.")
-	}
+	} 
 
 	if *tagPtr == "" {
 		log.Fatal("Must pass a tag.  Use -h for help.")
@@ -30,7 +45,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = s.Info(*msgPtr)
+
+	if ! readFromStdin  {
+		err = s.Info(*msgPtr)
+	} else {
+		reader := bufio.NewReader(os.Stdin)
+		SendLinesFromReader(reader, s)
+	}
+
 	if err != nil {
 		log.Fatal(err)
 	}
