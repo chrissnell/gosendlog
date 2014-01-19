@@ -51,7 +51,6 @@ func ProcessLinesFromReader(r *bufio.Reader, processFunc func(string)) {
 
 func sendLineToSyslog(message []byte, logger *syslog.Writer) {
 	logger.Write(message)
-	// logger.Info(message)
 }
 
 func main() {
