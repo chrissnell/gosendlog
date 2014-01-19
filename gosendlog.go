@@ -91,7 +91,8 @@ func main() {
 	}
 
 	if !readFromStdin {
-		err = s.Info(*msgPtr)
+		msg := []byte(*msgPtr)
+		sendLineToSyslog(msg, s)
 	} else {
 		reader := bufio.NewReader(os.Stdin)
 		ProcessLinesFromReader(reader, func(str string) { sendLineToSyslog([]byte(str), s) })
