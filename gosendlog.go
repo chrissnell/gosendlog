@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"log"
 	"log/syslog"
 	"os"
@@ -41,12 +42,6 @@ var facilityStrings = map[string]syslog.Priority{
 	"local5":   21 << 3,
 	"local6":   22 << 3,
 	"local7":   23 << 3,
-}
-
-func ProcessLinesFromReader(r *bufio.Reader, processFunc func(string)) {
-	for line, err := r.ReadString('\n'); err == nil; line, err = r.ReadString('\n') {
-		processFunc(line[:len(line)-1]) // Trim last newline
-	}
 }
 
 func sendLineToSyslog(message []byte, logger *syslog.Writer) {
@@ -93,8 +88,13 @@ func main() {
 		msg := []byte(*msgPtr)
 		sendLineToSyslog(msg, s)
 	} else {
-		reader := bufio.NewReader(os.Stdin)
-		ProcessLinesFromReader(reader, func(str string) { sendLineToSyslog([]byte(str), s) })
+		scanner := bufio.NewScanner(os.Stdin)
+		for scanner.Scan() {
+			sendLineToSyslog([]byte(scanner.Text()), s)
+		}
+		if err := scanner.Err(); err != nil {
+			fmt.Fprintln(os.Stderr, "reading standard input:", err)
+		}
 	}
 
 	if err != nil {
