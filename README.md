@@ -1,7 +1,7 @@
-gologit
+gosendlog
 =======
 
-gologit is a command-line tool to send data to a syslog server.  I wrote it because logger(1) that comes with GNU's util-linux is horribly buggy.
+gosendlog is a command-line tool to send data to a syslog server.  I wrote it because logger(1) that comes with GNU's util-linux is horribly buggy.
 
 Installation
 ------------
@@ -9,10 +9,10 @@ Install Go: http://golang.org/doc/install.
 
 Then:
 ```
-git clone git@github.com:chrissnell/gologit.git
-cd gologit
-go build gologit.go
-cp gologit <wherever you want it>
+git clone git@github.com:chrissnell/gosendlog.git
+cd gosendlog
+go build gosendlog.go
+cp gosendlog <wherever you want it>
 ```
 
 
@@ -20,7 +20,7 @@ cp gologit <wherever you want it>
 Usage
 -----
 ```
-gologit <args>
+gosendlog <args>
     -dest="host:port"  - Destination syslog host
     -proto="protocol"  - Protocol (e.g. "udp" or "tcp").  Defaults to udp
     -tag="string"      - Tag or application name
@@ -34,12 +34,12 @@ Typical Examples
 
 Logging from stdin: 
 ```
-echo "Test message" | gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info"
+echo "Test message" | gosendlog -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info"
 ```
 
 Logging with command-line arguments:
 ```
-gologit -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info" -msg="Test message"
+gosendlog -dest="syslog.mycompany.com:514" -proto=udp -tag="apache" -facility="local7" -priority="info" -msg="Test message"
 ```
  
 To Do
