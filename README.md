@@ -72,4 +72,3 @@ To Do
 * Ability to read/tail a file and deal with logrotate
 * Enforce maximum syslog message size limits (with option to override)
 * Better error handling
-* This is my first Go language program ever so there are most certainly many ways to improve the code
