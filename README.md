@@ -43,7 +43,7 @@ Logging JSON-formatted access logs with Apache
     LogFormat "{ \
             \"@timestamp\": \"%{%Y-%m-%dT%H:%M:%S%z}t\", \
             \"@version\": \"1\", \
-            \"vip\": \"app.revinate.com\", \
+            \"vip\": \"www.mycompany.com\", \
             \"message\": \"%h %l %u %t \\\"%r\\\" %>s %b\", \
             \"clientip\": \"%a\", \
             \"duration\": %D, \
